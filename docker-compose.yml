@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: nest-excellent-pg
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: excellent
+      POSTGRES_PASSWORD: excellent
+      POSTGRES_DB: excellent
+      PGDATA: /data/postgres
+    volumes:
+      - ./data/pg:/data/postgres
+
+  cache:
+    container_name: nest-excellent-cache
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ./data/redis:/data
