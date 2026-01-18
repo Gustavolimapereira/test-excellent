@@ -18,6 +18,7 @@ const createClientBodySchema = z.object({
   email: z.string().optional(),
 })
 
+const bodyValidationPipe = new ZodValidationPipe(createClientBodySchema)
 type CreateClientBodySchema = z.infer<typeof createClientBodySchema>
 
 @Controller('/clients')
@@ -30,7 +31,7 @@ export class CreateClientController {
   @Post()
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(createClientBodySchema))
-  async handle(@Body() body: CreateClientBodySchema) {
+  async handle(@Body(bodyValidationPipe) body: CreateClientBodySchema) {
     const { cnpj } = body
 
     const clientWithSameCnpj = await this.prisma.client.findUnique({

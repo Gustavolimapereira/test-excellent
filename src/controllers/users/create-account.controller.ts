@@ -18,6 +18,7 @@ const createAccountBodySchema = z.object({
   role: z.enum(['ADMIN', 'COLABORATOR']).optional(),
 })
 
+const bodyValidationPipe = new ZodValidationPipe(createAccountBodySchema)
 type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>
 
 @Controller('/accounts')
@@ -27,7 +28,7 @@ export class CreateAccountController {
   @Post()
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(createAccountBodySchema))
-  async handle(@Body() body: CreateAccountBodySchema) {
+  async handle(@Body(bodyValidationPipe) body: CreateAccountBodySchema) {
     const { name, email, password, role } = body
 
     const userWithSameEmail = await this.prisma.user.findUnique({

@@ -7,6 +7,7 @@ import { AuthenticateModule } from './controllers/authenticate/authenticate.modu
 import { UserModule } from './controllers/users/user.module'
 import { ClientModule } from './controllers/clients/client.module'
 import { ProductModule } from './controllers/products/product.module'
+import { OrderModule } from './controllers/orders/order.module'
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ProductModule } from './controllers/products/product.module'
     UserModule,
     ClientModule,
     ProductModule,
+    OrderModule,
   ],
   controllers: [],
   providers: [PrismaService],

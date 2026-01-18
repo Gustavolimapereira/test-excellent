@@ -5,6 +5,7 @@ import {
   HttpCode,
   Post,
 } from '@nestjs/common'
+import { ZodValidationPipe } from 'src/pipes/zod-validation-pipe'
 import { PrismaService } from 'src/prisma/prisma.service'
 import z from 'zod'
 
@@ -14,6 +15,7 @@ const createProductBodySchema = z.object({
   stock: z.number(),
 })
 
+const bodyValidationPipe = new ZodValidationPipe(createProductBodySchema)
 type CreateProductBodySchema = z.infer<typeof createProductBodySchema>
 
 @Controller('/products')
@@ -22,7 +24,7 @@ export class CreateProductController {
 
   @Post()
   @HttpCode(201)
-  async handle(@Body() body: CreateProductBodySchema) {
+  async handle(@Body(bodyValidationPipe) body: CreateProductBodySchema) {
     const { description, price, stock } = body
 
     if (price <= 0) {
